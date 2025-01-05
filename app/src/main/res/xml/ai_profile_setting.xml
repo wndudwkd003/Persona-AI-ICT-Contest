@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ai_profile base_path="profile">
+    <item id="iu"  name="아이유" description="아이유 대한 설명" image="iu_image.png" />
+    <item id="kgw" name="교수님" description="교수님에 대한 설명" image="kgw_image.png" />
+    <item id="mds" name="마동석" description="마동석에 대한 설명" image="mds_image.png" />
+    <item id="ryu" name="다니엘" description="다니엘에 대한 설명" image="sample_image.png" />
+    <item id="ttb" name="탬탬버린" description="탬태버린에 대한 설명" image="ttb_image.png" />
+</ai_profile>

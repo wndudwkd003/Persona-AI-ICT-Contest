@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- RecyclerView 아이템 너비 정의 -->
+    <dimen name="card_item_width">150dp</dimen>
+</resources>
