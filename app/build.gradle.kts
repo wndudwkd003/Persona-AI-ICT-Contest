@@ -59,4 +59,7 @@ dependencies {
     
     implementation(libs.glide)
     implementation(libs.material)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.shimmer)
 }

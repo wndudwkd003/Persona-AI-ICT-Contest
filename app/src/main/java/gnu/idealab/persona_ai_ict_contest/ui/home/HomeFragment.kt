@@ -33,7 +33,7 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("HomeFragment", "onCreate called")
+        // Log.d("HomeFragment", "onCreate called")
 
     }
 
@@ -41,7 +41,7 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        Log.d("HomeFragment", "onCreateView called")
+        // Log.d("HomeFragment", "onCreateView called")
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
         // return inflater.inflate(R.layout.fragment_home, container, false)
@@ -49,16 +49,54 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("HomeFragment", "onViewCreated called")
+        // Log.d("HomeFragment", "onViewCreated called")
 
         // AiInfo 데이터 가져오기
         val aiInfoMappingLoader = AiInfoMappingLoader(requireContext())
         val aiInfoList = aiInfoMappingLoader.getAiList()
 
-        Log.d("HomeFragment", "aiInfoList를 다음과 같이 불러옴: $aiInfoList")
+        // Log.d("HomeFragment", "aiInfoList를 다음과 같이 불러옴: $aiInfoList")
 
         // 리사이클러뷰 설정
         setupRecyclerView(aiInfoList)
+
+        binding.circularRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            private var isScrollStopped = false
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    // 스크롤 시작 시 Shimmer 시작
+                    Log.d("RecyclerViewScroll", "Shimmer 시작")
+                    binding.shimmerSpeechText.visibility = View.VISIBLE
+                    binding.shimmerSpeechText.startShimmer()
+                    binding.speechText.visibility = View.INVISIBLE
+                    isScrollStopped = false
+                } else if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    // 스크롤 상태가 IDLE로 전환된 경우
+                    isScrollStopped = true
+                    Log.d("RecyclerViewScroll", "스크롤 정지 감지. 실제 멈춤 확인 중...")
+                    recyclerView.postDelayed({
+                        if (isScrollStopped) {
+                            Log.d("RecyclerViewScroll", "Shimmer 멈춤 (1초 경과 후)")
+                            binding.shimmerSpeechText.stopShimmer()
+                            binding.shimmerSpeechText.visibility = View.GONE
+                            binding.speechText.visibility = View.VISIBLE
+                        }
+                    }, 900) // 1초 딜레이
+                }
+            }
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                // onScrolled 호출 시 스크롤이 아직 진행 중임을 알림
+                if (dx != 0 || dy != 0) {
+                    isScrollStopped = false
+                }
+            }
+        })
+
     }
 
     private fun setupRecyclerView(aiInfoList: List<AiInfo>) {
@@ -86,11 +124,6 @@ class HomeFragment : Fragment() {
             snapHelper.attachToRecyclerView(this) // RecyclerView에 SnapHelper 연결
         }
     }
-
-
-
-
-
 
 
     override fun onDestroy() {
