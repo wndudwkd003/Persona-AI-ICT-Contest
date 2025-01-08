@@ -10,5 +10,6 @@
     <color name="error_red">#E78781</color>
 
 
+    <color name="splash_background">#fce6ff</color>
     <color name="shimmer_placeholder">#878787</color>
 </resources>

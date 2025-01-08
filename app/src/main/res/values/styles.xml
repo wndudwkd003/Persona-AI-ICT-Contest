@@ -15,4 +15,14 @@
     </style>
 
 
+    <style name="CircleImageViewStyle" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+
+    <style name="RoundedTextViewStyle" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item> <!-- 모서리 둥글게 -->
+    </style>
 </resources>

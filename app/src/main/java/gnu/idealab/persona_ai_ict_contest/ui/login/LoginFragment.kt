@@ -116,6 +116,8 @@ class LoginFragment : Fragment() {
 
     private fun gotoHomeFragment() {
         findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+        requireActivity().supportFragmentManager.popBackStack() // 현재 프래그먼트를 스택에서 제거
+
     }
 
     private fun hideKeyboard() {

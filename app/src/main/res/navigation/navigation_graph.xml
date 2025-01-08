@@ -13,6 +13,12 @@
         <action
             android:id="@+id/action_homeFragment_to_chatFragment"
             app:destination="@id/chatFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_infoAppFragment"
+            app:destination="@id/infoAppFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_personaInfoFragment"
+            app:destination="@id/personaInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -30,6 +36,24 @@
         tools:layout="@layout/fragment_chat" >
         <action
             android:id="@+id/action_chatFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/infoAppFragment"
+        android:name="gnu.idealab.persona_ai_ict_contest.ui.info.InfoAppFragment"
+        android:label="fragment_info_app"
+        tools:layout="@layout/fragment_info_app" >
+        <action
+            android:id="@+id/action_infoAppFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/personaInfoFragment"
+        android:name="gnu.idealab.persona_ai_ict_contest.ui.info.PersonaInfoFragment"
+        android:label="fragment_persona_info"
+        tools:layout="@layout/fragment_persona_info" >
+        <action
+            android:id="@+id/action_personaInfoFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
 </navigation>

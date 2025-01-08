@@ -62,4 +62,6 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.shimmer)
+    implementation(libs.lottie)
+    implementation(libs.androidx.core.splashscreen)
 }
