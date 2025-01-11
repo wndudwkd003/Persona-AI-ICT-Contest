@@ -1,6 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.card.MaterialCardView
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="14dp"
+        android:id="@+id/user_chat_cardview"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.RoundedCornerCardViewUser"
+        app:strokeWidth="0dp"
+        app:cardBackgroundColor="@color/purple_bright_gray"
+        app:layout_constraintWidth_max="280dp">
+
+        <TextView
+            android:gravity="start"
+            android:id="@+id/chat_text_view"
+            android:layout_width="wrap_content"
+            android:fontFamily="@font/pretendard_regular"
+            android:layout_height="wrap_content"
+            android:padding="14dp"
+            android:text="어, 이어이어, 어이어이어이"
+            android:textColor="@color/black"
+            android:textSize="13sp" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        app:layout_constraintTop_toBottomOf="@id/user_chat_cardview"
+        app:layout_constraintStart_toStartOf="@+id/user_chat_cardview"
+        android:id="@+id/chat_time_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:fontFamily="@font/pretendard_light"
+        android:text="6.25"
+        android:textColor="@color/black"
+        android:textSize="10sp" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

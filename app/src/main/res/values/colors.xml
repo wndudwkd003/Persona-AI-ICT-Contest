@@ -6,9 +6,12 @@
 
     <color name="gray">	#A2A2A2</color>
     <color name="bright_gray">#E2E2E2</color>
+    <color name="very_bright_gray">#EFEFEF</color>
     <color name="dark_gray">#626262</color>
     <color name="error_red">#E78781</color>
 
+
+    <color name="purple_bright_gray">#F7EDFF</color>
 
     <color name="splash_background">#fce6ff</color>
     <color name="shimmer_placeholder">#878787</color>
