@@ -26,8 +26,8 @@
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
-            android:id="@+id/action_loginFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            android:id="@+id/action_loginFragment_to_selectDepartmentFragment"
+            app:destination="@id/selectDepartmentFragment" />
     </fragment>
     <fragment
         android:id="@+id/chatFragment"
@@ -54,6 +54,15 @@
         tools:layout="@layout/fragment_persona_info" >
         <action
             android:id="@+id/action_personaInfoFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/selectDepartmentFragment"
+        android:name="gnu.idealab.persona_ai_ict_contest.ui.login.SelectDepartmentFragment"
+        android:label="fragment_select_department"
+        tools:layout="@layout/fragment_select_department" >
+        <action
+            android:id="@+id/action_selectDepartmentFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
 </navigation>

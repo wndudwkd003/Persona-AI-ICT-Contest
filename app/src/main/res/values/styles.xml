@@ -15,6 +15,12 @@
     </style>
 
 
+    <style name="ShapeAppearanceOverlay.MyApp.CutCornerTreatment" parent="">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">100dp</item>
+    </style>
+
+
     <style name="CircleImageViewStyle" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>

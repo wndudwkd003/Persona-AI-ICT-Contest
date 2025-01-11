@@ -8,13 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.textview.MaterialTextView
 import gnu.idealab.persona_ai_ict_contest.R
 import gnu.idealab.persona_ai_ict_contest.data.repositories.LoginRepository
 import gnu.idealab.persona_ai_ict_contest.databinding.FragmentLoginBinding
@@ -53,7 +53,7 @@ class LoginFragment : Fragment() {
         
         // 앱 실행시 shared preference 확인하기
         if (isUserLoggedIn()) {
-            gotoHomeFragment()
+            gotoSelectDepartmentFragment()
             return
         }
 
@@ -87,11 +87,13 @@ class LoginFragment : Fragment() {
                 binding.errorText.visibility = View.VISIBLE
                 binding.errorText.text = viewModel.errorMessage.value
                 triggerShakeAnimation(binding.errorText)
+            } else if (result == NicknameValidationResult.VALID) {
+                binding.errorText.text = viewModel.errorMessage.value
             }
         })
 
         viewModel.loginSuccess.observe(viewLifecycleOwner, Observer { success ->
-            if (success) gotoHomeFragment()
+            if (success) gotoSelectDepartmentFragment()
         })
     }
 
@@ -101,6 +103,7 @@ class LoginFragment : Fragment() {
         val uid = sharedPref.getString("uid", null)
         return !nickname.isNullOrEmpty() && !uid.isNullOrEmpty()
     }
+
 
     // X축 진동 애니메이션 메서드
     private fun triggerShakeAnimation(view: View) {
@@ -114,10 +117,14 @@ class LoginFragment : Fragment() {
         animatorSet.start()
     }
 
-    private fun gotoHomeFragment() {
-        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-        requireActivity().supportFragmentManager.popBackStack() // 현재 프래그먼트를 스택에서 제거
-
+    private fun gotoSelectDepartmentFragment() {
+        findNavController().navigate(
+            R.id.action_loginFragment_to_selectDepartmentFragment,
+            null,
+            NavOptions.Builder()
+                .setPopUpTo(R.id.loginFragment, true) // 현재 프래그먼트를 스택에서 제거
+                .build()
+        )
     }
 
     private fun hideKeyboard() {
