@@ -1,5 +1,9 @@
 package gnu.idealab.persona_ai_ict_contest.data.interfaces
 
+import gnu.idealab.persona_ai_ict_contest.data.models.AIChatAccessRequest
+import gnu.idealab.persona_ai_ict_contest.data.models.AIChatAccessResponse
+import gnu.idealab.persona_ai_ict_contest.data.models.ChatMessageRequest
+import gnu.idealab.persona_ai_ict_contest.data.models.ChatMessageResponse
 import gnu.idealab.persona_ai_ict_contest.data.models.DepartmentRequest
 import gnu.idealab.persona_ai_ict_contest.data.models.DepartmentResponse
 import gnu.idealab.persona_ai_ict_contest.data.models.LoginRequest
@@ -24,5 +28,11 @@ interface ApiService {
     @POST("/ict/department_select/")
     fun departmentSelect(@Body request: UserDepartmentRequest): Call<UserDepartmentResponse>
 
+
+    @POST("/ict/chat/access/")
+    fun accessChatMessage(@Body request: AIChatAccessRequest): Call<AIChatAccessResponse>
+
+    @POST("/ict/chat/message/")
+    fun sendChatMessage(@Body request: ChatMessageRequest): Call<ChatMessageResponse>
 }
 

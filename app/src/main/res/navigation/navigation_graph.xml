@@ -19,6 +19,8 @@
         <action
             android:id="@+id/action_homeFragment_to_personaInfoFragment"
             app:destination="@id/personaInfoFragment" />
+
+
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -37,6 +39,10 @@
         <action
             android:id="@+id/action_chatFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+
+        <argument
+            android:name="aiInfo"
+            app:argType="gnu.idealab.persona_ai_ict_contest.data.models.AiInfo" />
     </fragment>
     <fragment
         android:id="@+id/infoAppFragment"

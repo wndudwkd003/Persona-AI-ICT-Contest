@@ -7,17 +7,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import gnu.idealab.persona_ai_ict_contest.DefaultSetting
 import gnu.idealab.persona_ai_ict_contest.R
 import gnu.idealab.persona_ai_ict_contest.utils.loader.AiInfoMappingLoader
 import gnu.idealab.persona_ai_ict_contest.custom_view.circular_scrolling_card_list_view.CircularAdapter
 import gnu.idealab.persona_ai_ict_contest.custom_view.circular_scrolling_card_list_view.CircularLayoutManager
+import gnu.idealab.persona_ai_ict_contest.custom_view.circular_scrolling_card_list_view.OnAiItemClickListener
 import gnu.idealab.persona_ai_ict_contest.data.models.AiInfo
+import gnu.idealab.persona_ai_ict_contest.data.repositories.ConnectRepository
 import gnu.idealab.persona_ai_ict_contest.databinding.FragmentHomeBinding
 import gnu.idealab.persona_ai_ict_contest.viewmodel.HomeViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeoutOrNull
 
 class HomeFragment : Fragment() {
 
@@ -31,6 +38,8 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
+    private val repos = ConnectRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,8 +118,42 @@ class HomeFragment : Fragment() {
 
     }
 
+    private fun gotoChatFragment(item: AiInfo) {
+        val action = HomeFragmentDirections.actionHomeFragmentToChatFragment(aiInfo = item)
+        findNavController().navigate(action)
+    }
+
     private fun setupRecyclerView(aiInfoList: List<AiInfo>) {
-        val circularAdapter = CircularAdapter(requireContext(), aiInfoList)
+        // 아이템 클릭 시 채팅방 접근
+        val circularAdapter = CircularAdapter(requireContext(), aiInfoList, object : OnAiItemClickListener {
+            override fun onAiItemClick(item: AiInfo, isClicked: Boolean) {
+                if (isClicked) {
+                    val uid = DefaultSetting.getUID(requireContext())
+                    viewModel.accessChatMessage(uid = uid, item = item)
+
+                    // Lottie 애니메이션 시작
+                    binding.skeletonLoadingLottieview.visibility = View.VISIBLE
+
+                    // 최소 3초, 최대 30초 대기하며 결과 처리
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        val result = withTimeoutOrNull(30000) { // 최대 30초 대기
+                            repeatUntilSuccessOrTimeout()
+                        }
+
+                        // Lottie 애니메이션 멈추고 결과 처리
+                        if (result == true) {
+                            binding.skeletonLoadingLottieview.visibility = View.GONE
+                            gotoChatFragment(viewModel.aiInfo.value!!)
+                        } else {
+                            binding.skeletonLoadingLottieview.visibility = View.GONE
+                            // 실패 처리 (필요 시 에러 메시지 표시)
+                        }
+                    }
+                }
+            }
+        })
+
+
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         binding.circularRecyclerView.apply {
@@ -134,6 +177,24 @@ class HomeFragment : Fragment() {
             snapHelper.attachToRecyclerView(this) // RecyclerView에 SnapHelper 연결
         }
     }
+
+    private suspend fun repeatUntilSuccessOrTimeout(): Boolean {
+        val minDelay = 3000L // 최소 대기 시간: 3초
+        val pollingInterval = 500L // 상태를 주기적으로 확인할 간격
+        val startTime = System.currentTimeMillis()
+
+        // 최소 3초가 지나기 전까지 무조건 대기
+        delay(minDelay)
+
+        while (System.currentTimeMillis() - startTime < 30000) { // 최대 30초 대기
+            if (viewModel.connectSuccess.value == true) {
+                return true // 성공 시 즉시 반환
+            }
+            delay(pollingInterval) // 폴링 간격만큼 대기
+        }
+        return false // 타임아웃
+    }
+
 
 
     override fun onDestroy() {

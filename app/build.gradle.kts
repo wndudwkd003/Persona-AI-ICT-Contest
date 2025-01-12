@@ -1,6 +1,9 @@
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.androidx.navigation.safeargs)
+    id("kotlin-parcelize")
 }
 
 android {
@@ -20,7 +23,6 @@ android {
     buildFeatures {
         viewBinding = true
     }
-
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -55,8 +57,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    
-    
+
+
     implementation(libs.glide)
     implementation(libs.material)
     implementation(libs.retrofit)
@@ -64,4 +66,5 @@ dependencies {
     implementation(libs.shimmer)
     implementation(libs.lottie)
     implementation(libs.androidx.core.splashscreen)
+
 }

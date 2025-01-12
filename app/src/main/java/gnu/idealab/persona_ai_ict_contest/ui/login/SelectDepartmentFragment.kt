@@ -30,7 +30,9 @@ class SelectDepartmentFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var binding: FragmentSelectDepartmentBinding
+    private var _binding: FragmentSelectDepartmentBinding? = null
+    private val binding get() = _binding!!
+
     private val viewModel: SelectDepartmentViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,8 +49,13 @@ class SelectDepartmentFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         // return inflater.inflate(R.layout.fragment_select_department, container, false)
-        binding = FragmentSelectDepartmentBinding.inflate(inflater, container, false)
+        _binding = FragmentSelectDepartmentBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

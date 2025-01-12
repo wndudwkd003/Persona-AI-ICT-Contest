@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -16,7 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import gnu.idealab.persona_ai_ict_contest.R
-import gnu.idealab.persona_ai_ict_contest.data.repositories.LoginRepository
+import gnu.idealab.persona_ai_ict_contest.data.repositories.ConnectRepository
 import gnu.idealab.persona_ai_ict_contest.databinding.FragmentLoginBinding
 import gnu.idealab.persona_ai_ict_contest.viewmodel.LoginViewModel
 import gnu.idealab.persona_ai_ict_contest.viewmodel.LoginViewModelFactory
@@ -41,7 +40,7 @@ class LoginFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // 레포지토리 생성
-        val repository = LoginRepository()
+        val repository = ConnectRepository()
 
         // 팩토리를 사용해 ViewModel 생성
         val factory = LoginViewModelFactory(repository)

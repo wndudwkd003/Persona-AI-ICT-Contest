@@ -10,6 +10,7 @@
     <color name="dark_gray">#626262</color>
     <color name="error_red">#E78781</color>
 
+    <color name="skeleton_gray">#6E8C8C8C</color>
 
     <color name="purple_bright_gray">#F7EDFF</color>
 

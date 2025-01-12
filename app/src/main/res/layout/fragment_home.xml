@@ -7,6 +7,8 @@
     tools:context=".ui.home.HomeFragment">
 
 
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/speech_bubble_constraint"
         android:layout_width="0dp"
@@ -102,6 +104,7 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/circular_card_item"
         android:orientation="horizontal"
+        android:paddingVertical="15dp"
         android:clipToPadding="false"/>
 
     <com.google.android.material.textview.MaterialTextView
@@ -115,7 +118,7 @@
         android:textColor="@color/black"
         android:fontFamily="@font/pretendard_extrabold"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="25dp" />
+        android:layout_marginTop="5dp" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/info_description_text_view"
@@ -170,6 +173,26 @@
 
         app:layout_constraintStart_toStartOf="@id/info_title2_text_view"
         app:layout_constraintTop_toBottomOf="@id/info_title2_text_view" />
+
+
+    <FrameLayout
+        android:id="@+id/skeleton_loading_lottieview"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="@color/skeleton_gray"
+        android:clickable="true"
+        android:focusable="true" >
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:lottie_rawRes="@raw/skeleton_loading_3"
+            app:lottie_loop="true"
+            app:lottie_autoPlay="true" />
+
+    </FrameLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import gnu.idealab.persona_ai_ict_contest.DefaultSetting
-import gnu.idealab.persona_ai_ict_contest.data.repositories.LoginRepository
+import gnu.idealab.persona_ai_ict_contest.data.repositories.ConnectRepository
 import java.security.MessageDigest
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -15,7 +15,7 @@ import java.util.Locale
 import kotlin.random.Random
 
 class LoginViewModel(
-    private val repos: LoginRepository
+    private val repos: ConnectRepository
 ) : ViewModel() {
 
     private val _nicknameValidationResult = MutableLiveData<NicknameValidationResult>()
@@ -109,7 +109,7 @@ enum class NicknameValidationResult {
 
 
 class LoginViewModelFactory(
-    private val repository: LoginRepository
+    private val repository: ConnectRepository
 ) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")

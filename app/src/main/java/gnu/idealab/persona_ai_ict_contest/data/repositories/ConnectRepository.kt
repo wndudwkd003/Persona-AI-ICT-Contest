@@ -1,6 +1,11 @@
 package gnu.idealab.persona_ai_ict_contest.data.repositories
 
 import gnu.idealab.persona_ai_ict_contest.data.interfaces.ApiService
+import gnu.idealab.persona_ai_ict_contest.data.models.AIChatAccessRequest
+import gnu.idealab.persona_ai_ict_contest.data.models.AIChatAccessResponse
+import gnu.idealab.persona_ai_ict_contest.data.models.ChatMessage
+import gnu.idealab.persona_ai_ict_contest.data.models.ChatMessageRequest
+import gnu.idealab.persona_ai_ict_contest.data.models.ChatMessageResponse
 import gnu.idealab.persona_ai_ict_contest.data.models.DepartmentRequest
 import gnu.idealab.persona_ai_ict_contest.data.models.DepartmentResponse
 import gnu.idealab.persona_ai_ict_contest.data.models.LoginRequest
@@ -13,7 +18,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class LoginRepository {
+class ConnectRepository {
     private val apiService: ApiService
 
     init {
@@ -77,6 +82,44 @@ class LoginRepository {
 
             override fun onFailure(call: Call<UserDepartmentResponse>, t: Throwable) {
                 callback(false)
+            }
+        })
+    }
+
+    // AI 채팅방 접근
+    fun accessChatMessage(uid: String, aiId: String, callback: (Boolean, List<ChatMessage>) -> Unit) {
+        val request = AIChatAccessRequest(uid, aiId)
+        apiService.accessChatMessage(request).enqueue(object: Callback<AIChatAccessResponse> {
+            override fun onResponse(call: Call<AIChatAccessResponse>, response: Response<AIChatAccessResponse>) {
+                if (response.isSuccessful && response.body() != null) {
+                    callback(response.body()!!.success, response.body()!!.chatHistory)
+                } else {
+                    callback(false, emptyList())
+                }
+            }
+            override fun onFailure(call: Call<AIChatAccessResponse>, t: Throwable) {
+                callback(false, emptyList())
+            }
+        })
+    }
+
+    // 채팅 전송
+    fun sendChatMessage(uid: String, message: ChatMessage, callback: (Boolean, ChatMessage) -> Unit) {
+        val request = ChatMessageRequest(uid, message)
+        apiService.sendChatMessage(request).enqueue(object: Callback<ChatMessageResponse> {
+            override fun onResponse(
+                call: Call<ChatMessageResponse>,
+                response: Response<ChatMessageResponse>,
+            ) {
+                if (response.isSuccessful && response.body() != null) {
+                    callback(response.body()!!.success, response.body()!!.message)
+                } else {
+                    callback(false, ChatMessage("", "", ByteArray(0), "", false))
+                }
+            }
+
+            override fun onFailure(call: Call<ChatMessageResponse>, t: Throwable) {
+                callback(false, ChatMessage("", "", ByteArray(0), "", false))
             }
         })
     }
