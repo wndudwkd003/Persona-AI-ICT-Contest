@@ -11,11 +11,11 @@ data class AiInfo(
     val description: String
 ): Parcelable
 
-
+@Parcelize
 data class ChatMessage(
     val id: String,
     val message: String,
     val wavData: ByteArray,
     val timestamp: String,
     val isAI: Boolean
-)
+):  Parcelable

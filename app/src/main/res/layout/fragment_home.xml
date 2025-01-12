@@ -27,13 +27,14 @@
             android:layout_height="match_parent" />
 
         <TextView
+            android:visibility="invisible"
             android:layout_marginBottom="20dp"
             android:textColor="@color/black"
             android:textSize="22sp"
             android:fontFamily="@font/pretendard_semibold"
             android:gravity="center"
             android:id="@+id/speech_text"
-            android:text="어, 이제왔어?"
+            android:text=""
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
@@ -41,7 +42,7 @@
             android:id="@+id/shimmer_speech_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

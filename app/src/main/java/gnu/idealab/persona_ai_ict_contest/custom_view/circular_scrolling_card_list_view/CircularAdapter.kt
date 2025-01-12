@@ -24,6 +24,9 @@ class CircularAdapter(
         val profileImageView: ImageView = itemView.findViewById(R.id.profile_image_view)
     }
 
+    fun getItem(position: Int): AiInfo {
+        return items[position % items.size]
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CircularViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.circular_card_item, parent, false)
         return CircularViewHolder(view)

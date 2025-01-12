@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="?attr/colorControlHighlight">
+    <!-- Ripple 효과가 발생할 영역 -->
+    <item android:id="@android:id/mask">
+        <shape android:shape="rectangle">
+            <solid android:color="#9D7ABD" /> <!-- Ripple 영역 색상 (보라색) -->
+        </shape>
+    </item>
+    <!-- 기본 배경 -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#AA83ED" /> <!-- 배경색 보라색 -->
+            <corners android:radius="60dp" /> <!-- 모서리 둥글기 -->
+        </shape>
+    </item>
+</ripple>

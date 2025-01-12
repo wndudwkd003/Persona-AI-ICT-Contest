@@ -46,7 +46,7 @@
                 android:textColor="@color/black"
                 android:layout_marginHorizontal="16dp"
                 android:textSize="18sp"
-                android:text="ACE Bot 앱은 ACE Bot 앱은 ACE Bot 앱은 ACE Bot 앱은 ACE Bot 앱은 ACE Bot 앱은 ACE Bot 앱은 ACE Bot 앱은 ACE Bot 앱은 ACE Bot 앱은 ACE Bot 앱은 ACE Bot 앱은 " />
+                android:text="ACE Bot은 본인의 전공을 기반으로 하는 비전공자를 위한 소프트웨어 학습 챗봇입니다. ACE Bot을 통해 각자의 전공 수준에 맞게 이해하기 쉽도록 프롬프트가 설계되어 있습니다." />
 
             <ImageView
                 android:layout_marginVertical="16dp"
@@ -62,7 +62,7 @@
                 android:textColor="@color/black"
                 android:layout_margin="16dp"
                 android:textSize="26sp"
-                android:text="이 앱은 무엇인가요?" />
+                android:text="다른 챗봇과의 차이가 무엇인가요?" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
@@ -71,14 +71,14 @@
                 android:textColor="@color/black"
                 android:layout_marginHorizontal="16dp"
                 android:textSize="18sp"
-                android:text="ACE Bot 앱은 ACE Bot 앱은 ACE Bot 앱은 ACE Bot 앱은 ACE Bot 앱은 ACE Bot 앱은 ACE Bot 앱은 ACE Bot 앱은 ACE Bot 앱은 ACE Bot 앱은 ACE Bot 앱은 ACE Bot 앱은 " />
+                android:text="우선 ACE Bot의 설계 과정을 알아야합니다. ACE Bot은 학과 정보를 검색증강(RAG)를 통해 경상국립대학교 전공 과정을 이해할 수 있습니다. 이를 통해 사용자의 전공을 통한 맞춤형 설명을 기대할 수 있습니다.\n\n그리고 페르소나 파인튜닝을 통해 5가지 인격을 모방하는 챗봇으로 답변을 받을 수 있습니다. 자신이 좋아하는 상대에게 답변을 받으면 좋지 않겠어요?" />
 
             <ImageView
                 android:layout_marginVertical="16dp"
                 android:scaleType="centerCrop"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:src="@drawable/info_01" />
+                android:src="@drawable/info_02" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
@@ -87,7 +87,7 @@
                 android:textColor="@color/black"
                 android:layout_margin="16dp"
                 android:textSize="26sp"
-                android:text="이 앱은 무엇인가요?" />
+                android:text="어떤 장점이 있나요?" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
@@ -96,18 +96,18 @@
                 android:textColor="@color/black"
                 android:layout_marginHorizontal="16dp"
                 android:textSize="18sp"
-                android:text="ACE Bot 앱은 ACE Bot 앱은 ACE Bot 앱은 ACE Bot 앱은 ACE Bot 앱은 ACE Bot 앱은 ACE Bot 앱은 ACE Bot 앱은 ACE Bot 앱은 ACE Bot 앱은 ACE Bot 앱은 ACE Bot 앱은 " />
+                android:text="공부라는 것은 어려운 용어를 쉽게 풀이하여 접근하면 효과적으로 학습할 수 있습니다. ACE Bot은 학과별 사용자 맞춤형으로 설명을 해주는 능력이 있으며 학습 효과를 향상시킬 수 있습니다." />
 
             <ImageView
                 android:layout_marginVertical="16dp"
                 android:scaleType="centerCrop"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:src="@drawable/info_01" />
+                android:src="@drawable/info_03" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="75dp" />
+                android:layout_height="155dp" />
 
 
         </LinearLayout>

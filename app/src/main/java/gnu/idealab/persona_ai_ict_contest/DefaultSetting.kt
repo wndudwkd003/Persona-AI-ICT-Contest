@@ -13,6 +13,8 @@ object DefaultSetting {
         return sharedPreferences.getString("uid", "") ?: ""
     }
 
+    val newMessage = ChatMessage("iu", "It's new message for debuging mode!", ByteArray(0), "2025-01-12 10:00:00", true)
+
     val chatHistory = mutableListOf<ChatMessage>(
         // 유저의 질문
         ChatMessage(
@@ -61,7 +63,104 @@ object DefaultSetting {
             wavData = ByteArray(0),
             timestamp = "2025-01-12 10:05:00",
             isAI = true
-        )
+        ),
+        // 유저의 추가 요청
+        ChatMessage(
+            id = "user1",
+            message = "Can you also provide weather updates?",
+            wavData = ByteArray(0),
+            timestamp = "2025-01-12 10:04:00",
+            isAI = false
+        ),
+        // AI의 응답
+        ChatMessage(
+            id = "iu",
+            message = "Yes, I can provide real-time weather updates for your location. Would you like me to get the current forecast?",
+            wavData = ByteArray(0),
+            timestamp = "2025-01-12 10:05:00",
+            isAI = true
+        ),
+        // 유저의 추가 요청
+        ChatMessage(
+            id = "user1",
+            message = "Can you also provide weather updates?",
+            wavData = ByteArray(0),
+            timestamp = "2025-01-12 10:04:00",
+            isAI = false
+        ),
+        // AI의 응답
+        ChatMessage(
+            id = "iu",
+            message = "Yes, I can provide real-time weather updates for your location. Would you like me to get the current forecast?",
+            wavData = ByteArray(0),
+            timestamp = "2025-01-12 10:05:00",
+            isAI = true
+        ),
+        // 유저의 추가 요청
+        ChatMessage(
+            id = "user1",
+            message = "Can you also provide weather updates?",
+            wavData = ByteArray(0),
+            timestamp = "2025-01-12 10:04:00",
+            isAI = false
+        ),
+        // AI의 응답
+        ChatMessage(
+            id = "iu",
+            message = "Yes, I can provide real-time weather updates for your location. Would you like me to get the current forecast?",
+            wavData = ByteArray(0),
+            timestamp = "2025-01-12 10:05:00",
+            isAI = true
+        ),
+        // 유저의 추가 요청
+        ChatMessage(
+            id = "user1",
+            message = "Can you also provide weather updates?",
+            wavData = ByteArray(0),
+            timestamp = "2025-01-12 10:04:00",
+            isAI = false
+        ),
+        // AI의 응답
+        ChatMessage(
+            id = "iu",
+            message = "Yes, I can provide real-time weather updates for your location. Would you like me to get the current forecast?",
+            wavData = ByteArray(0),
+            timestamp = "2025-01-12 10:05:00",
+            isAI = true
+        ),
+        // 유저의 추가 요청
+        ChatMessage(
+            id = "user1",
+            message = "Can you also provide weather updates?",
+            wavData = ByteArray(0),
+            timestamp = "2025-01-12 10:04:00",
+            isAI = false
+        ),
+        // AI의 응답
+        ChatMessage(
+            id = "iu",
+            message = "Yes, I can provide real-time weather updates for your location. Would you like me to get the current forecast?",
+            wavData = ByteArray(0),
+            timestamp = "2025-01-12 10:05:00",
+            isAI = true
+        ),
+        // 유저의 추가 요청
+        ChatMessage(
+            id = "user1",
+            message = "Can you also provide weather updates?",
+            wavData = ByteArray(0),
+            timestamp = "2025-01-12 10:04:00",
+            isAI = false
+        ),
+        // AI의 응답
+        ChatMessage(
+            id = "iu",
+            message = "Yes, I can provide real-time weather updates for your location. Would you like me to get the current forecast?",
+            wavData = ByteArray(0),
+            timestamp = "2025-01-12 10:05:00",
+            isAI = true
+        ),
+
     )
 
 

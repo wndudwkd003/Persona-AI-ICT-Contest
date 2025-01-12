@@ -5,9 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.color.MaterialColors
 import gnu.idealab.persona_ai_ict_contest.R
+import gnu.idealab.persona_ai_ict_contest.databinding.FragmentInfoAppBinding
+import gnu.idealab.persona_ai_ict_contest.databinding.FragmentPersonaInfoBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -23,6 +27,9 @@ class PersonaInfoFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    private var _binding: FragmentPersonaInfoBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +50,15 @@ class PersonaInfoFragment : Fragment() {
 
             // 흰색 배경에 어두운 아이콘 설정
             WindowCompat.getInsetsController(window, view)?.isAppearanceLightStatusBars = true
+        }
+
+        // Toolbar 설정
+        binding.toolbar.apply {
+            (activity as AppCompatActivity).setSupportActionBar(this)
+            (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true) // 뒤로가기 버튼 활성화
+            setNavigationOnClickListener {
+                findNavController().navigateUp() // 뒤로가기 버튼 클릭 시 동작
+            }
         }
     }
 
@@ -66,9 +82,14 @@ class PersonaInfoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_persona_info, container, false)
+        _binding = FragmentPersonaInfoBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
     companion object {
         /**
          * Use this factory method to create a new instance of

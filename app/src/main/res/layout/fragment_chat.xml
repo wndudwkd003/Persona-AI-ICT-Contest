@@ -42,6 +42,7 @@
             android:layout_height="match_parent"
             android:layout_marginHorizontal="4dp"
             android:layout_marginBottom="2dp"
+            android:layout_marginTop="4dp"
             app:contentInsetEnd="0dp"
             app:contentInsetLeft="0dp"
             app:contentInsetRight="0dp"
@@ -88,6 +89,8 @@
                     android:layout_height="30dp"
                     android:layout_marginHorizontal="12dp"
                     android:layout_marginVertical="9dp"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:background="@color/black"
                     android:src="@drawable/baseline_arrow_drop_up_24"
                     app:layout_constraintBottom_toBottomOf="@id/mic_button"
@@ -104,6 +107,27 @@
         </com.google.android.material.bottomappbar.BottomAppBar>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/new_message_button"
+        android:visibility="gone"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:drawablePadding="10dp"
+        android:paddingVertical="10dp"
+        android:paddingEnd="24dp"
+        android:paddingStart="44dp"
+        android:textColor="@color/white"
+        android:layout_margin="4dp"
+        android:fontFamily="@font/pretendard_semibold"
+        android:drawableEnd="@drawable/baseline_arrow_drop_down_24"
+        android:text="새로운 메시지"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_with_purple_background_rounded"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/chat_view" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

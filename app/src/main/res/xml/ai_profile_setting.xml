@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ai_profile base_path="profile">
-    <item id="iu"  name="아이유" description="아이유 대한 설명" image="iu_image.png" />
-    <item id="kgw" name="교수님" description="교수님에 대한 설명" image="kgw_image.png" />
-    <item id="mds" name="마동석" description="마동석에 대한 설명" image="mds_image.png" />
-    <item id="ryu" name="다니엘" description="다니엘에 대한 설명" image="sample_image.png" />
-    <item id="ttb" name="탬탬버린" description="탬태버린에 대한 설명" image="ttb_image.png" />
+    <item id="iu"  name="아이유" description="아이유가 말할 것 같은 대사1|아이유가 말할 것 같은 대사2|아이유가 말할 것 같은 대사3|아이유가 말할 것 같은 대사4|아이유가 말할 것 같은 대사5|아이유가 말할 것 같은 대사6" image="iu_image.png" />
+    <item id="kgw" name="교수님" description="교수님이 말할 것 같은 대사1|교수님이 말할 것 같은 대사2|교수님이 말할 것 같은 대사3|교수님이 말할 것 같은 대사4|교수님이 말할 것 같은 대사5|교수님이 말할 것 같은 대사6" image="kgw_image.png" />
+    <item id="mds" name="마동석" description="마동석이 말할 것 같은 대사1|마동석이 말할 것 같은 대사2|마동석이 말할 것 같은 대사3|마동석이 말할 것 같은 대사4|마동석이 말할 것 같은 대사5|마동석이 말할 것 같은 대사6" image="mds_image.png" />
+    <item id="ryu" name="다니엘" description="다니엘이 말할 것 같은 대사1|다니엘이 말할 것 같은 대사2|다니엘이 말할 것 같은 대사3|다니엘이 말할 것 같은 대사4|다니엘이 말할 것 같은 대사5|다니엘이 말할 것 같은 대사6" image="sample_image.png" />
+    <item id="ttb" name="탬탬버린" description="탬탬버린이 말할 것 같은 대사1|탬탬버린이 말할 것 같은 대사2|탬탬버린이 말할 것 같은 대사3|탬탬버린이 말할 것 같은 대사4|탬탬버린이 말할 것 같은 대사5|탬탬버린이 말할 것 같은 대사6" image="ttb_image.png" />
 </ai_profile>
