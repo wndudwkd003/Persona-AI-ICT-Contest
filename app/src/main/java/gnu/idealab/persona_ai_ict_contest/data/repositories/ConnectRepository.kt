@@ -6,7 +6,6 @@ import gnu.idealab.persona_ai_ict_contest.data.models.AIChatAccessResponse
 import gnu.idealab.persona_ai_ict_contest.data.models.ChatMessage
 import gnu.idealab.persona_ai_ict_contest.data.models.ChatMessageRequest
 import gnu.idealab.persona_ai_ict_contest.data.models.ChatMessageResponse
-import gnu.idealab.persona_ai_ict_contest.data.models.DepartmentRequest
 import gnu.idealab.persona_ai_ict_contest.data.models.DepartmentResponse
 import gnu.idealab.persona_ai_ict_contest.data.models.LoginRequest
 import gnu.idealab.persona_ai_ict_contest.data.models.LoginResponse
@@ -50,9 +49,9 @@ class ConnectRepository {
     }
 
     // 학과 리스트 호출
-    fun departmentList(uid: String, callback: (Boolean, List<String>) -> Unit) {
-        val request = DepartmentRequest(uid)
-        apiService.departmentList(request).enqueue(object: Callback<DepartmentResponse> {
+    fun departmentList(callback: (Boolean, List<String>) -> Unit) {
+        // val request = DepartmentRequest()
+        apiService.departmentList().enqueue(object: Callback<DepartmentResponse> {
             override fun onResponse(call: Call<DepartmentResponse>, response: Response<DepartmentResponse>) {
                 if (response.isSuccessful && response.body() != null) {
                     callback(response.body()!!.success, response.body()!!.departmentList)

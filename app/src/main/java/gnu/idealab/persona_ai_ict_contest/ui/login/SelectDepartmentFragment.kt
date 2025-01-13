@@ -67,7 +67,7 @@ class SelectDepartmentFragment : Fragment() {
         }
 
         val uid = getUserUID()
-        viewModel.departmentList(uid)
+        viewModel.departmentList()
 
         // 학고 정보 불러오기 및 스피너 설정
         viewModel.departmentListSuccess.observe(viewLifecycleOwner) { success ->

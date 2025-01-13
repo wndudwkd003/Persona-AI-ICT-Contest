@@ -1,19 +1,46 @@
 package gnu.idealab.persona_ai_ict_contest.data.models
 
+import com.google.gson.annotations.SerializedName
+
 // 데이터 모델
-data class LoginRequest(val nickname: String, val uid: String)
-data class LoginResponse(val success: Boolean)
+data class LoginRequest(
+    @SerializedName("nickname") val nickname: String,
+    @SerializedName("user_id") val uid: String)
 
+data class LoginResponse(
+    @SerializedName("success") val success: Boolean
+)
 
-data class DepartmentRequest(val uid: String)
-data class DepartmentResponse(val success: Boolean, val departmentList: List<String>)
+// 요청하는 변수 없음
+// data class DepartmentRequest()
+data class DepartmentResponse(
+    @SerializedName("success") val success: Boolean,
+    @SerializedName("major_list") val departmentList: List<String>
+)
 
-data class UserDepartmentRequest(val uid: String, val department: String)
-data class UserDepartmentResponse(val success: Boolean)
+data class UserDepartmentRequest(
+    @SerializedName("user_id") val uid: String,
+    @SerializedName("major_name") val department: String
+)
+data class UserDepartmentResponse(
+    @SerializedName("success") val success: Boolean
+)
 
-data class AIChatAccessRequest(val uid: String, val ai: String)
-data class AIChatAccessResponse(val success: Boolean, val chatHistory: List<ChatMessage>)
+data class AIChatAccessRequest(
+    @SerializedName("user_id") val uid: String,
+    @SerializedName("ai_type") val ai: String
+)
+data class AIChatAccessResponse(
+    @SerializedName("success") val success: Boolean,
+    @SerializedName("chat_history") val chatHistory: List<ChatMessage>
+)
 
-data class ChatMessageRequest(val uid: String, val message: ChatMessage)
-data class ChatMessageResponse(val success: Boolean, val message: ChatMessage)
+data class ChatMessageRequest(
+    @SerializedName("uid") val uid: String,
+    @SerializedName("message") val message: ChatMessage
+)
+data class ChatMessageResponse(
+    @SerializedName("success") val success: Boolean,
+    @SerializedName("message") val message: ChatMessage
+)
 

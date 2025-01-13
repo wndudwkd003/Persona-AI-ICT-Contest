@@ -15,8 +15,8 @@ class SelectDepartmentViewModel : ViewModel() {
     private val _departmentListSuccess = MutableLiveData<Boolean>()
     val departmentListSuccess: MutableLiveData<Boolean> get() = _departmentListSuccess
 
-    fun departmentList(uid: String) {
-        connectRepository.departmentList(uid) { success, departmentList ->
+    fun departmentList() {
+        connectRepository.departmentList() { success, departmentList ->
             if (DefaultSetting.debugMode) {
                 _departmentList.value = DefaultSetting.debugDepartmentList
                 _departmentListSuccess.value = true
