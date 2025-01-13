@@ -7,7 +7,6 @@
     android:background="@color/white"
     tools:context=".ui.chat.ChatFragment">
 
-
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -28,6 +27,21 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintBottom_toTopOf="@id/chat_view"
         tools:listitem="@layout/ai_chat_item" />
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:visibility="invisible"
+        android:layout_marginBottom="100dp"
+        android:id="@+id/empty_textview"
+        android:fontFamily="@font/pretendard_extrabold"
+        android:textSize="33sp"
+        android:text="안녕하세요!\n대화를 시작해볼까요?" />
 
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

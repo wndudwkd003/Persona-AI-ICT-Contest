@@ -115,13 +115,13 @@ class ChatAdapter(private val chatHistory: MutableList<ChatMessage>, private val
                     .start()
 
                 // wavData 재생
-                if (isValidWavData(message.wavData)) {
-                    playWav(message.wavData)
-                } else {
-                    Log.e("AudioPlayback", "Invalid WAV data")
+                message.wavData?.let {
+                    if (isValidWavData(message.wavData)) {
+                        playWav(message.wavData)
+                    } else {
+                        Log.e("AudioPlayback", "Invalid WAV data")
+                    }
                 }
-
-
             }
         }
     }

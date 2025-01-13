@@ -68,6 +68,9 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         // Log.d("HomeFragment", "onViewCreated called")
 
+        // 유저 아이디 디버그
+        Log.d("test", "User Id: ${DefaultSetting.getUID(requireContext())}")
+
         // AiInfo 데이터 가져오기
         val aiInfoMappingLoader = AiInfoMappingLoader(requireContext())
         val aiInfoList = aiInfoMappingLoader.getAiList()

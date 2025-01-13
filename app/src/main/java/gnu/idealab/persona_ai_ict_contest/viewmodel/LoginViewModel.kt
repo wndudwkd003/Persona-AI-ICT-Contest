@@ -47,12 +47,14 @@ class LoginViewModel(
             // 서버 사용시 디버그 모드 확인하기
             if (DefaultSetting.debugMode) {
                 // 디버그 모드
+                Log.d("test", "디버그 모드임 항상 true 값을 보냈음")
                 saveUserData(context, nickname, uid)
                 _loginSuccess.value = true
             } else {
                 // 실제 서버로 닉네임과 uid(해시)가 사용 가능한지 체크 후 저장
                 repos.login(nickname, uid) { success ->
                     if (success) {
+                        Log.d("test", "서버에서 success true 값을 보냈음")
                         saveUserData(context, nickname, uid)
                         _loginSuccess.value = true
                     } else {
@@ -90,6 +92,8 @@ class LoginViewModel(
             putString("uid", uid)
             apply()
         }
+
+        Log.d("test", "saveUserData 함수에서 UID를 저장하였음 VIEWMODEL 내부임. ${uid}")
     }
 
     private fun NicknameValidationResult.errorMessage(): String = when (this) {

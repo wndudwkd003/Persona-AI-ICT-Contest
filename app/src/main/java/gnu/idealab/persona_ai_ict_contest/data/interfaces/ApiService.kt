@@ -25,14 +25,14 @@ interface ApiService {
     fun departmentList(): Call<DepartmentResponse>
 
 
-    @PUT("/ICT/setmajor")
+    @PUT("/ICT/user/setmajor")
     fun departmentSelect(@Body request: UserDepartmentRequest): Call<UserDepartmentResponse>
 
 
     @POST("/ICT/chatroom/connect")
     fun accessChatMessage(@Body request: AIChatAccessRequest): Call<AIChatAccessResponse>
 
-    @POST("/ICT/chat/message/")
+    @POST("/ICT/chat/message")
     fun sendChatMessage(@Body request: ChatMessageRequest): Call<ChatMessageResponse>
 }
 

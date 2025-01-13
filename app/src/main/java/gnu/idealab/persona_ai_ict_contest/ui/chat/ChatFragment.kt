@@ -108,6 +108,23 @@ class ChatFragment : Fragment() {
             })
         }
 
+        binding.micButton.setOnClickListener {
+            binding.micButton.animate()
+                .scaleX(0.8f) // 가로로 80% 크기로 줄임
+                .scaleY(0.8f) // 세로로 80% 크기로 줄임
+                .setDuration(100) // 줄어드는 데 걸리는 시간 (100ms)
+                .withEndAction {
+                    // 원래 크기로 복구
+                    binding.micButton.animate()
+                        .scaleX(1f) // 원래 크기
+                        .scaleY(1f) // 원래 크기
+                        .setDuration(100) // 복구하는 데 걸리는 시간 (100ms)
+                        .start()
+                }
+                .start()
+        }
+
+
         // 채팅 보내기 버튼
         // 채팅 보내기 버튼
         binding.chatButton.setOnClickListener {
@@ -160,6 +177,12 @@ class ChatFragment : Fragment() {
         viewModel.chatHistoryList.observe(viewLifecycleOwner) { chatHistory ->
             if (chatHistory.size != viewModel.initMessageListSize) {
                 adapter.submitMessage(chatHistory[chatHistory.size - 1])
+            }
+
+            if (chatHistory.isNotEmpty()) {
+                binding.emptyTextview.visibility = View.GONE
+            } else {
+                binding.emptyTextview.visibility = View.VISIBLE
             }
 
            // adapter.submitList(chatHistory.toList())
