@@ -14,8 +14,9 @@ data class AiInfo(
 
 @Parcelize
 data class ChatMessage(
-    @SerializedName("user_id") val id: String,
-    @SerializedName("message") val message: String,
+    @SerializedName("uid") val uid: String,
+    @SerializedName("ai_type") val aiType: String,
+    @SerializedName("text") val message: String,
     @SerializedName("wav_data") val wavData: ByteArray,
     @SerializedName("timestamp") val timestamp: String,
     @SerializedName("is_ai") val isAI: Boolean

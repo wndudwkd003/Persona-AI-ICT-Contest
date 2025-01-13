@@ -103,8 +103,8 @@ class ConnectRepository {
     }
 
     // 채팅 전송
-    fun sendChatMessage(uid: String, message: ChatMessage, callback: (Boolean, ChatMessage) -> Unit) {
-        val request = ChatMessageRequest(uid, message)
+    fun sendChatMessage(message: ChatMessage, callback: (Boolean, ChatMessage) -> Unit) {
+        val request = ChatMessageRequest( message)
         apiService.sendChatMessage(request).enqueue(object: Callback<ChatMessageResponse> {
             override fun onResponse(
                 call: Call<ChatMessageResponse>,
@@ -113,12 +113,12 @@ class ConnectRepository {
                 if (response.isSuccessful && response.body() != null) {
                     callback(response.body()!!.success, response.body()!!.message)
                 } else {
-                    callback(false, ChatMessage("", "", ByteArray(0), "", false))
+                    callback(false, ChatMessage("", "", "", ByteArray(0), "", false))
                 }
             }
 
             override fun onFailure(call: Call<ChatMessageResponse>, t: Throwable) {
-                callback(false, ChatMessage("", "", ByteArray(0), "", false))
+                callback(false, ChatMessage("", "", "", ByteArray(0), "", false))
             }
         })
     }

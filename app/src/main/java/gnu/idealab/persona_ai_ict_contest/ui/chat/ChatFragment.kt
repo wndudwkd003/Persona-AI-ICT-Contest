@@ -130,6 +130,7 @@ class ChatFragment : Fragment() {
                 // 메시지 전송 로직
                 viewModel.sendMessage(
                     uid = DefaultSetting.getUID(requireContext()),
+                    aiType = viewModel.aiInfo.value!!.id,
                     message = textMessage,
                     listener = object : MessageInterface {
                         override fun successMessage(message: ChatMessage) {

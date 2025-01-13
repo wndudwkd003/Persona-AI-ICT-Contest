@@ -36,7 +36,6 @@ data class AIChatAccessResponse(
 )
 
 data class ChatMessageRequest(
-    @SerializedName("uid") val uid: String,
     @SerializedName("message") val message: ChatMessage
 )
 data class ChatMessageResponse(
