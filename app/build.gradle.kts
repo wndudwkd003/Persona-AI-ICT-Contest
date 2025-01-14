@@ -1,3 +1,12 @@
+import java.util.Properties
+
+
+// local.properties 파일에서 값 로드
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(localPropertiesFile.inputStream())
+}
 
 plugins {
     alias(libs.plugins.android.application)
@@ -18,9 +27,18 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+
+        // local.properties의 값을 BuildConfig에 전달
+        buildConfigField(
+            "String",
+            "SERVER_IP",
+            "\"${localProperties.getProperty("MY_SECRET_KEY", "default_key")}\""
+        )
     }
 
     buildFeatures {
+        buildConfig = true
         viewBinding = true
     }
     buildTypes {
@@ -30,6 +48,17 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
+        }
+
+        debug {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+
+
         }
     }
     compileOptions {

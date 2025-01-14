@@ -1,6 +1,7 @@
 package gnu.idealab.persona_ai_ict_contest.data.repositories
 
 import android.util.Log
+import gnu.idealab.persona_ai_ict_contest.ServerSetting
 import gnu.idealab.persona_ai_ict_contest.data.interfaces.ApiService
 import gnu.idealab.persona_ai_ict_contest.data.models.AIChatAccessRequest
 import gnu.idealab.persona_ai_ict_contest.data.models.AIChatAccessResponse
@@ -20,6 +21,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
+
+
 class ConnectRepository {
     private val apiService: ApiService
 
@@ -30,9 +33,10 @@ class ConnectRepository {
             .writeTimeout(30, TimeUnit.SECONDS)   // 쓰기 타임아웃 설정
             .build()
 
+
         // Retrofit 초기화
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://117.16.153.30:8000") // 서버 주소
+            .baseUrl(ServerSetting.serverIP) // 서버 주소
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
