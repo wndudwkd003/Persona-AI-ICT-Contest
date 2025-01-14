@@ -32,7 +32,7 @@ class ConnectRepository {
 
         // Retrofit 초기화
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://117.16.153.32:8000") // 서버 주소
+            .baseUrl("http://117.16.153.30:8000") // 서버 주소
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
@@ -141,14 +141,14 @@ class ConnectRepository {
                 } else {
                     Log.e("SendChatMessageError", "Response failed: ${response.code()} - ${response.message()}")
 
-                    callback(false, ChatMessage("", "", "", ByteArray(0), "", true))
+                    callback(false, ChatMessage("", "", "", "", "", true))
                 }
             }
 
             override fun onFailure(call: Call<ChatMessageResponse>, t: Throwable) {
                 Log.e("SendChatMessageError", "Request failed: ${t.localizedMessage}", t)
 
-                callback(false, ChatMessage("", "", "", ByteArray(0), "", true))
+                callback(false, ChatMessage("", "", "", "", "", true))
             }
         })
     }

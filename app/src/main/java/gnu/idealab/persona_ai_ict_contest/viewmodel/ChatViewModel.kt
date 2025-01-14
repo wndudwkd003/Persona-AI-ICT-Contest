@@ -31,14 +31,14 @@ class ChatViewModel : ViewModel() {
     }
 
     fun sendMessage(uid: String, aiType: String, message: String, listener: MessageInterface) {
-        val newMessage = ChatMessage(uid = uid, aiType = aiType, message = message, wavData = ByteArray(0), isAI = false, timestamp = getCurrentTimestamp())
+        val newMessage = ChatMessage(uid = uid, aiType = aiType, message = message, wavData = "", isAI = false, timestamp = getCurrentTimestamp())
         _chatHistoryList.value?.apply {
             add(newMessage) // 유저의 메시지 등록
             _chatHistoryList.value = this // 강제 참조
         }
 
         // 유저의 메시지 보내기
-        repos.sendChatMessage( newMessage) { success, answerMessage ->
+        repos.sendChatMessage(newMessage) { success, answerMessage ->
             if (DefaultSetting.debugMode) {
                 _chatHistoryList.value?.apply {
                     add(DefaultSetting.newMessage) // 유저의 메시지 등록

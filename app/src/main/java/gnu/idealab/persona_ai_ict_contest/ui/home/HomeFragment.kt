@@ -2,6 +2,7 @@ package gnu.idealab.persona_ai_ict_contest.ui.home
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.content.pm.PackageManager
 import androidx.fragment.app.viewModels
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +11,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,6 +36,7 @@ import kotlinx.coroutines.withTimeoutOrNull
 import kotlin.random.Random
 
 class HomeFragment : Fragment() {
+    private val REQUEST_CODE_MIC = 1001
 
     companion object {
         fun newInstance() = HomeFragment()
@@ -64,8 +69,35 @@ class HomeFragment : Fragment() {
         // return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
+
+    private fun checkMicrophonePermission() {
+        if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.RECORD_AUDIO)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(android.Manifest.permission.RECORD_AUDIO),
+                REQUEST_CODE_MIC
+            )
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_CODE_MIC && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(requireContext(), "마이크 권한이 허용되었습니다.", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(requireContext(), "마이크 권한이 필요합니다.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        checkMicrophonePermission()
+
+
+
         // Log.d("HomeFragment", "onViewCreated called")
 
         // 유저 아이디 디버그

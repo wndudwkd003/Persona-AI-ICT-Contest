@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import android.media.AudioFormat
 import android.media.AudioManager
 import android.media.AudioTrack
+import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -115,14 +116,33 @@ class ChatAdapter(private val chatHistory: MutableList<ChatMessage>, private val
                     .start()
 
                 // wavData 재생
-                message.wavData?.let {
-                    if (isValidWavData(message.wavData)) {
-                        playWav(message.wavData)
-                    } else {
-                        Log.e("AudioPlayback", "Invalid WAV data")
-                    }
+                // Base64 문자열 재생
+                if (message.wavData.isNotEmpty()) {
+                    playBase64EncodedWav(message.wavData)
                 }
             }
+        }
+    }
+
+
+    private fun playBase64EncodedWav(base64Wav: String) {
+        try {
+            // Base64 문자열 디코딩
+            val wavData = Base64.decode(base64Wav, Base64.DEFAULT)
+
+            // WAV 데이터 유효성 검사
+            if (!isValidWavData(wavData)) {
+                Log.e("AudioPlayback", "Invalid WAV data")
+                return
+            }
+
+            // WAV 헤더 제거 및 오디오 데이터 추출
+            val audioData = wavData.copyOfRange(44, wavData.size)
+
+            // 오디오 재생
+            playWav(audioData)
+        } catch (e: Exception) {
+            Log.e("AudioPlayback", "Error decoding or playing audio", e)
         }
     }
 

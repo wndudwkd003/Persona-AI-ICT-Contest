@@ -1,13 +1,21 @@
 package gnu.idealab.persona_ai_ict_contest.ui.chat
 
+import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.fragment.app.viewModels
 import android.os.Bundle
+import android.speech.RecognitionListener
+import android.speech.RecognizerIntent
+import android.speech.SpeechRecognizer
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +32,8 @@ class ChatFragment : Fragment() {
 
     private var _binding: FragmentChatBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var speechRecognizer: SpeechRecognizer
 
     companion object {
         fun newInstance() = ChatFragment()
@@ -49,6 +59,81 @@ class ChatFragment : Fragment() {
         viewModel.initMessageListSize = chatMessages.size
     }
 
+    private val REQUEST_CODE_MIC = 1001 // 고유 코드 설정
+
+    // 권한 확인 및 요청 함수
+    private fun checkMicrophonePermission() {
+        // 권한이 허용되지 않았는지 확인
+        if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.RECORD_AUDIO)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            // 권한 요청
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(android.Manifest.permission.RECORD_AUDIO),
+                REQUEST_CODE_MIC
+            )
+        } else {
+            // 이미 권한이 허용된 경우
+            startSpeechRecognition()
+        }
+    }
+
+    // 권한 요청 결과 처리
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_CODE_MIC) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(requireContext(), "마이크 권한이 허용되었습니다.", Toast.LENGTH_SHORT).show()
+                startSpeechRecognition()
+            } else {
+                Toast.makeText(requireContext(), "마이크 권한이 거부되었습니다.", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun startSpeechRecognition() {
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR") // 한국어 설정
+            putExtra(RecognizerIntent.EXTRA_PROMPT, "음성을 입력하세요") // 안내 문구
+        }
+
+        val speechRecognizer = SpeechRecognizer.createSpeechRecognizer(requireContext())
+        speechRecognizer.setRecognitionListener(object : RecognitionListener {
+            override fun onReadyForSpeech(params: Bundle?) {
+                Toast.makeText(requireContext(), "듣고 있습니다...", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onResults(results: Bundle?) {
+                val text = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.get(0) ?: ""
+                binding.chatTextview.setText(text) // 음성 입력 결과를 텍스트뷰에 설정
+            }
+
+            override fun onError(error: Int) {
+                val errorMessage = when (error) {
+                    SpeechRecognizer.ERROR_NETWORK -> "네트워크 오류가 발생했습니다."
+                    SpeechRecognizer.ERROR_AUDIO -> "오디오 오류가 발생했습니다."
+                    SpeechRecognizer.ERROR_NO_MATCH -> "일치하는 결과가 없습니다."
+                    SpeechRecognizer.ERROR_RECOGNIZER_BUSY -> "현재 음성 인식이 사용 중입니다."
+                    else -> "알 수 없는 오류가 발생했습니다."
+                }
+                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+            }
+
+
+            override fun onEndOfSpeech() {}
+            override fun onPartialResults(partialResults: Bundle?) {}
+            override fun onRmsChanged(rmsdB: Float) {}
+            override fun onBeginningOfSpeech() {}
+            override fun onBufferReceived(buffer: ByteArray?) {}
+            override fun onEvent(eventType: Int, params: Bundle?) {}
+        })
+
+        speechRecognizer.startListening(intent)
+    }
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -64,6 +149,8 @@ class ChatFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(requireContext())
 
         // 상태 표시줄을 흰색으로 설정
         activity?.window?.let { window ->
@@ -122,6 +209,8 @@ class ChatFragment : Fragment() {
                         .start()
                 }
                 .start()
+
+            checkMicrophonePermission()
         }
 
 
@@ -194,6 +283,8 @@ class ChatFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+        speechRecognizer.stopListening() // 먼저 중지
+        speechRecognizer.destroy()       // 리소스 해제
 
         // 상태 표시줄을 Material Theme 기본 색상으로 복원
         activity?.window?.let { window ->
