@@ -107,6 +107,7 @@ class ChatViewModel : ViewModel() {
                     _wavSuccess.value = success
                 } else {
                     Log.e("test", "빈문자열 도착 wav")
+                    _wavSuccess.value = false
                 }
 
             }
