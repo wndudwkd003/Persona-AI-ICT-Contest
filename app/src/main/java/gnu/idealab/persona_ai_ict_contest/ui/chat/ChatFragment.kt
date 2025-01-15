@@ -155,15 +155,15 @@ class ChatFragment : Fragment() {
 
 
 
-    private fun playWav(data: ByteArray) {
+    private fun playWav(data: ByteArray, sampleRate: Int) {
         val audioTrack: AudioTrack?
 
         try {
-            // WAV 헤더 제거 (헤더 크기: 44 bytes)
+            // WAV 헤더 제거
             val audioData = data.copyOfRange(44, data.size)
 
             // 샘플 속성 설정 (샘플 속성은 헤더 정보에 따라 설정해야 함)
-            val sampleRate = 44100 // 일반적으로 44.1kHz
+            val sampleRate = sampleRate // 22050
             val channelConfig = AudioFormat.CHANNEL_OUT_MONO // 모노
             val audioFormat = AudioFormat.ENCODING_PCM_16BIT // 16비트 PCM
 
@@ -223,7 +223,7 @@ class ChatFragment : Fragment() {
         viewModel.wavSuccess.observe(viewLifecycleOwner) { success ->
             if (success && viewModel.wavAudioData.value != null && viewModel.wavAudioData.value?.isNotEmpty()!!) {
                 viewModel.wavAudioData.value?.let {
-                    playWav(it)
+                    playWav(it, viewModel.sampleRate)
                 }
             } else {
                 Toast.makeText(requireContext(), "아직 TTS를 만들고 있어요.", Toast.LENGTH_SHORT).show()

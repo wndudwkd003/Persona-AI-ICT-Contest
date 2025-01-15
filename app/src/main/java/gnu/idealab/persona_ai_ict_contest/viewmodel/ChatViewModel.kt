@@ -17,6 +17,8 @@ interface MessageInterface {
 
 class ChatViewModel : ViewModel() {
 
+    var sampleRate: Int = 22050
+
     var initMessageListSize: Int = 0
 
     private val repos = ConnectRepository()
@@ -73,19 +75,55 @@ class ChatViewModel : ViewModel() {
         return current.format(formatter)
     }
 
+    private fun analyzeWavHeader(wavData: ByteArray) {
+        if (wavData.size < 44) {
+            Log.e("WAV Analysis", "Invalid WAV file: insufficient size")
+            return
+        }
+
+        val riffHeader = String(wavData.copyOfRange(0, 4)) // "RIFF"
+        val waveHeader = String(wavData.copyOfRange(8, 12)) // "WAVE"
+        val sampleRate = wavData.copyOfRange(24, 28).toIntLE() // 샘플링 레이트
+        val numChannels = wavData.copyOfRange(22, 24).toShortLE() // 채널 수
+        val bitsPerSample = wavData.copyOfRange(34, 36).toShortLE() // 비트 심도
+
+        this.sampleRate = sampleRate
+
+        Log.d("WAV Analysis", """
+        RIFF Header: $riffHeader
+        WAVE Header: $waveHeader
+        Sample Rate: $sampleRate
+        Number of Channels: $numChannels
+        Bits per Sample: $bitsPerSample
+    """.trimIndent())
+    }
+
+
+    private fun ByteArray.toShortLE(): Short {
+        return ((this[1].toInt() and 0xFF) shl 8 or (this[0].toInt() and 0xFF)).toShort()
+    }
+
+    private fun ByteArray.toIntLE(): Int {
+        return (this[3].toInt() and 0xFF shl 24) or
+                (this[2].toInt() and 0xFF shl 16) or
+                (this[1].toInt() and 0xFF shl 8) or
+                (this[0].toInt() and 0xFF)
+    }
+
+
+
+
     private fun playBase64EncodedWav(base64Wav: String): ByteArray? {
         try {
-            // Base64 문자열 디코딩
+            // Base64 문자열 디코딩 (헤더 제거 없이 전체 WAV 데이터 처리)
             val wavData = Base64.decode(base64Wav, Base64.DEFAULT)
 
-            // WAV 데이터 유효성 검사
+            // WAV 데이터 유효성 검사 (필요하다면 추가적으로 할 수 있음)
             if (isValidWavData(wavData)) {
-                // WAV 헤더 제거 및 오디오 데이터 추출
-                val audioData = wavData.copyOfRange(44, wavData.size)
-                // 오디오 재생
-                return audioData
+                // 헤더 제거 없이 전체 데이터 반환
+                analyzeWavHeader(wavData)
+                return wavData
             }
-
 
         } catch (e: Exception) {
             Log.e("AudioPlayback", "Error decoding or playing audio", e)
