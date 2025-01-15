@@ -43,3 +43,13 @@ data class ChatMessageResponse(
     @SerializedName("message") val message: ChatMessage
 )
 
+
+data class WavDataRequest(
+    @SerializedName("uid") val uid: String,
+    @SerializedName("wav_id") val wavId: String
+)
+data class WavDataResponse(
+    @SerializedName("success") val success: Boolean,
+    @SerializedName("wav_data") val wavData: String
+)
+

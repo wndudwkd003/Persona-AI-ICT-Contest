@@ -9,6 +9,8 @@ import gnu.idealab.persona_ai_ict_contest.data.models.LoginRequest
 import gnu.idealab.persona_ai_ict_contest.data.models.LoginResponse
 import gnu.idealab.persona_ai_ict_contest.data.models.UserDepartmentRequest
 import gnu.idealab.persona_ai_ict_contest.data.models.UserDepartmentResponse
+import gnu.idealab.persona_ai_ict_contest.data.models.WavDataRequest
+import gnu.idealab.persona_ai_ict_contest.data.models.WavDataResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -34,5 +36,9 @@ interface ApiService {
 
     @POST("/ICT/chat/message")
     fun sendChatMessage(@Body request: ChatMessageRequest): Call<ChatMessageResponse>
+
+
+    @POST("/ICT/chat/wavwithid")
+    fun accessWavMessage(@Body request: WavDataRequest): Call<WavDataResponse>
 }
 

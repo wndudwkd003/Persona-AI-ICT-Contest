@@ -2,11 +2,15 @@ package gnu.idealab.persona_ai_ict_contest.ui.chat
 
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.media.AudioFormat
+import android.media.AudioManager
+import android.media.AudioTrack
 import androidx.fragment.app.viewModels
 import android.os.Bundle
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
+import android.util.Base64
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -22,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.color.MaterialColors
 import gnu.idealab.persona_ai_ict_contest.DefaultSetting
 import gnu.idealab.persona_ai_ict_contest.custom_view.chat_view.ChatAdapter
+import gnu.idealab.persona_ai_ict_contest.custom_view.chat_view.TTSListener
 import gnu.idealab.persona_ai_ict_contest.data.models.ChatMessage
 import gnu.idealab.persona_ai_ict_contest.data.repositories.ConnectRepository
 import gnu.idealab.persona_ai_ict_contest.databinding.FragmentChatBinding
@@ -147,6 +152,41 @@ class ChatFragment : Fragment() {
         return binding.root
     }
 
+
+
+
+    private fun playWav(data: ByteArray) {
+        val audioTrack: AudioTrack?
+
+        try {
+            // WAV 헤더 제거 (헤더 크기: 44 bytes)
+            val audioData = data.copyOfRange(44, data.size)
+
+            // 샘플 속성 설정 (샘플 속성은 헤더 정보에 따라 설정해야 함)
+            val sampleRate = 44100 // 일반적으로 44.1kHz
+            val channelConfig = AudioFormat.CHANNEL_OUT_MONO // 모노
+            val audioFormat = AudioFormat.ENCODING_PCM_16BIT // 16비트 PCM
+
+            // AudioTrack 객체 생성
+            audioTrack = AudioTrack(
+                AudioManager.STREAM_MUSIC,
+                sampleRate,
+                channelConfig,
+                audioFormat,
+                audioData.size,
+                AudioTrack.MODE_STATIC
+            )
+
+            // 데이터 쓰기
+            audioTrack.write(audioData, 0, audioData.size)
+            audioTrack.play()
+
+        } catch (e: Exception) {
+            Log.e("AudioPlayback", "Error playing audio", e)
+        }
+    }
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -172,6 +212,24 @@ class ChatFragment : Fragment() {
         val chatHistory = viewModel.chatHistoryList.value!!
 
         val adapter = ChatAdapter(chatHistory, viewModel.aiInfo.value!!, requireContext())
+
+        adapter.setTTSOnClickListener(object: TTSListener {
+            override fun click(wavId: String) {
+                viewModel.chatTTSAccess(DefaultSetting.getUID(requireContext()), wavId)
+            }
+        })
+
+        //
+        viewModel.wavSuccess.observe(viewLifecycleOwner) { success ->
+            if (success && viewModel.wavAudioData.value != null && viewModel.wavAudioData.value?.isNotEmpty()!!) {
+                viewModel.wavAudioData.value?.let {
+                    playWav(it)
+                }
+            } else {
+                Toast.makeText(requireContext(), "아직 TTS를 만들고 있어요.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         binding.chatRecyclerview.apply {
             layoutManager = androidx.recyclerview.widget.LinearLayoutManager(requireContext())
             this.adapter = adapter
@@ -218,6 +276,7 @@ class ChatFragment : Fragment() {
         // 채팅 보내기 버튼
         binding.chatButton.setOnClickListener {
             val textMessage = binding.chatTextview.text.toString()
+
             // 버튼 애니메이션: 작아졌다가 커지기
             binding.chatButton.animate()
                 .scaleX(0.8f) // 가로로 80% 크기로 줄임
@@ -232,6 +291,13 @@ class ChatFragment : Fragment() {
                         .start()
                 }
                 .start()
+
+
+            binding.chatTextview.setText("")
+            binding.chatTextview.clearFocus()
+            binding.chatTextview.setHint("메시지")
+
+
             if (textMessage.isNotEmpty()) {
                 // 메시지 전송 로직
                 viewModel.sendMessage(
@@ -241,9 +307,6 @@ class ChatFragment : Fragment() {
                     listener = object : MessageInterface {
                         override fun successMessage(message: ChatMessage) {
                             binding.newMessageButton.visibility = View.VISIBLE // 응답이 오면 새로운 메시지 버튼 나오게
-                            binding.chatTextview.setText("")
-                            binding.chatTextview.clearFocus()
-                            binding.chatTextview.setHint("메시지")
 
                         }
                     }

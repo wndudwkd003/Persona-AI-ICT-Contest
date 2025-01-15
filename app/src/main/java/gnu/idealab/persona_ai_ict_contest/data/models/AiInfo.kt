@@ -17,7 +17,8 @@ data class ChatMessage(
     @SerializedName("uid") val uid: String,
     @SerializedName("ai_type") val aiType: String,
     @SerializedName("message") val message: String,
-    @SerializedName("wav_data") val wavData: String,
+    @SerializedName("wav_id") val wavId: String,
     @SerializedName("timestamp") val timestamp: String,
     @SerializedName("is_ai") val isAI: Boolean
 ):  Parcelable
+

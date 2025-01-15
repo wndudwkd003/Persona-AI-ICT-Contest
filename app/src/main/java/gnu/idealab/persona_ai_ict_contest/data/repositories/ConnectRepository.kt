@@ -13,6 +13,8 @@ import gnu.idealab.persona_ai_ict_contest.data.models.LoginRequest
 import gnu.idealab.persona_ai_ict_contest.data.models.LoginResponse
 import gnu.idealab.persona_ai_ict_contest.data.models.UserDepartmentRequest
 import gnu.idealab.persona_ai_ict_contest.data.models.UserDepartmentResponse
+import gnu.idealab.persona_ai_ict_contest.data.models.WavDataRequest
+import gnu.idealab.persona_ai_ict_contest.data.models.WavDataResponse
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -153,6 +155,32 @@ class ConnectRepository {
                 Log.e("SendChatMessageError", "Request failed: ${t.localizedMessage}", t)
 
                 callback(false, ChatMessage("", "", "", "", "", true))
+            }
+        })
+    }
+
+
+    // Wav 데이터 요청/응답
+    fun accessWavData(uid: String, wavId: String, callback: (Boolean, String) -> Unit) {
+        val request = WavDataRequest(uid = uid, wavId = wavId)
+        apiService.accessWavMessage(request).enqueue(object: Callback<WavDataResponse> {
+            override fun onResponse(
+                call: Call<WavDataResponse>,
+                response: Response<WavDataResponse>,
+            ) {
+                if (response.isSuccessful && response.body() != null) {
+                    callback(response.body()!!.success, response.body()!!.wavData)
+                } else {
+                    Log.e("accessWavData", "Response failed: ${response.code()} - ${response.message()}")
+
+                    callback(false, "")
+                }
+            }
+
+            override fun onFailure(call: Call<WavDataResponse>, t: Throwable) {
+                Log.e("accessWavData", "Request failed: ${t.localizedMessage}", t)
+
+                callback(false, "")
             }
         })
     }

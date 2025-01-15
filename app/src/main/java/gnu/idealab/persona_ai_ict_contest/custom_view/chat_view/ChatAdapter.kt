@@ -16,6 +16,11 @@ import gnu.idealab.persona_ai_ict_contest.data.models.ChatMessage
 import gnu.idealab.persona_ai_ict_contest.databinding.AiChatItemBinding
 import gnu.idealab.persona_ai_ict_contest.databinding.UserChatItemBinding
 
+
+interface TTSListener {
+    fun click(wavId: String)
+}
+
 // ChatAdapter 코드
 class ChatAdapter(private val chatHistory: MutableList<ChatMessage>, private val aiInfo: AiInfo, context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val assetManager = context.assets
@@ -23,6 +28,8 @@ class ChatAdapter(private val chatHistory: MutableList<ChatMessage>, private val
         private const val VIEW_TYPE_AI = 1
         private const val VIEW_TYPE_USER = 2
     }
+
+    private lateinit var clickListener: TTSListener
 
     override fun getItemViewType(position: Int): Int {
         return if (chatHistory[position].isAI) VIEW_TYPE_AI else VIEW_TYPE_USER
@@ -48,6 +55,10 @@ class ChatAdapter(private val chatHistory: MutableList<ChatMessage>, private val
     }
 
     override fun getItemCount(): Int = chatHistory.size
+
+    fun setTTSOnClickListener(clickListener: TTSListener) {
+        this.clickListener = clickListener
+    }
 
     fun submitMessage(updatedMessage: ChatMessage) {
         Log.d("ChatAdapter", "updatedMessage: ${updatedMessage.toString()}")
@@ -115,72 +126,14 @@ class ChatAdapter(private val chatHistory: MutableList<ChatMessage>, private val
                     }
                     .start()
 
-                // wavData 재생
-                // Base64 문자열 재생
-                if (message.wavData.isNotEmpty()) {
-                    playBase64EncodedWav(message.wavData)
-                }
+                // 프래그먼트에 클릭된 wavId 반환
+                Log.d("Message Debug", "Message: ${message.toString()}")
+                clickListener.click(message.wavId)
+
             }
         }
     }
 
-
-    private fun playBase64EncodedWav(base64Wav: String) {
-        try {
-            // Base64 문자열 디코딩
-            val wavData = Base64.decode(base64Wav, Base64.DEFAULT)
-
-            // WAV 데이터 유효성 검사
-            if (!isValidWavData(wavData)) {
-                Log.e("AudioPlayback", "Invalid WAV data")
-                return
-            }
-
-            // WAV 헤더 제거 및 오디오 데이터 추출
-            val audioData = wavData.copyOfRange(44, wavData.size)
-
-            // 오디오 재생
-            playWav(audioData)
-        } catch (e: Exception) {
-            Log.e("AudioPlayback", "Error decoding or playing audio", e)
-        }
-    }
-
-    private fun playWav(data: ByteArray) {
-        val audioTrack: AudioTrack?
-
-        try {
-            // WAV 헤더 제거 (헤더 크기: 44 bytes)
-            val audioData = data.copyOfRange(44, data.size)
-
-            // 샘플 속성 설정 (샘플 속성은 헤더 정보에 따라 설정해야 함)
-            val sampleRate = 44100 // 일반적으로 44.1kHz
-            val channelConfig = AudioFormat.CHANNEL_OUT_MONO // 모노
-            val audioFormat = AudioFormat.ENCODING_PCM_16BIT // 16비트 PCM
-
-            // AudioTrack 객체 생성
-            audioTrack = AudioTrack(
-                AudioManager.STREAM_MUSIC,
-                sampleRate,
-                channelConfig,
-                audioFormat,
-                audioData.size,
-                AudioTrack.MODE_STATIC
-            )
-
-            // 데이터 쓰기
-            audioTrack.write(audioData, 0, audioData.size)
-            audioTrack.play()
-
-        } catch (e: Exception) {
-            Log.e("AudioPlayback", "Error playing audio", e)
-        }
-    }
-
-
-    private fun isValidWavData(data: ByteArray): Boolean {
-        return data.size > 12 && String(data.copyOfRange(0, 4)) == "RIFF" && String(data.copyOfRange(8, 12)) == "WAVE"
-    }
 
 
     inner class UserViewHolder(private val binding: UserChatItemBinding) : RecyclerView.ViewHolder(binding.root) {
