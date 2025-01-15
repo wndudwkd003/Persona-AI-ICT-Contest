@@ -44,6 +44,9 @@ class ChatFragment : Fragment() {
         fun newInstance() = ChatFragment()
     }
 
+    private var audioTrack: AudioTrack? = null
+
+
     private val repos = ConnectRepository()
 
     private val viewModel: ChatViewModel by viewModels()
@@ -156,14 +159,17 @@ class ChatFragment : Fragment() {
 
 
     private fun playWav(data: ByteArray, sampleRate: Int) {
-        val audioTrack: AudioTrack?
-
         try {
+            // 이전 AudioTrack 정리
+            audioTrack?.let {
+                it.stop()
+                it.release()
+            }
+
             // WAV 헤더 제거
             val audioData = data.copyOfRange(44, data.size)
 
-            // 샘플 속성 설정 (샘플 속성은 헤더 정보에 따라 설정해야 함)
-            val sampleRate = sampleRate // 22050
+            // 샘플 속성 설정
             val channelConfig = AudioFormat.CHANNEL_OUT_MONO // 모노
             val audioFormat = AudioFormat.ENCODING_PCM_16BIT // 16비트 PCM
 
@@ -177,14 +183,15 @@ class ChatFragment : Fragment() {
                 AudioTrack.MODE_STATIC
             )
 
-            // 데이터 쓰기
-            audioTrack.write(audioData, 0, audioData.size)
-            audioTrack.play()
+            // 데이터 쓰기 및 재생
+            audioTrack?.write(audioData, 0, audioData.size)
+            audioTrack?.play()
 
         } catch (e: Exception) {
             Log.e("AudioPlayback", "Error playing audio", e)
         }
     }
+
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -359,6 +366,14 @@ class ChatFragment : Fragment() {
             WindowCompat.getInsetsController(window, requireActivity().window.decorView)?.isAppearanceLightStatusBars =
                 MaterialColors.isColorLight(statusBarColor)
         }
+
+        // AudioTrack 리소스 해제
+        audioTrack?.let {
+            it.stop() // 재생 중지
+            it.release() // 리소스 해제
+        }
+        audioTrack = null
+
 
         _binding = null
     }
